@@ -31,15 +31,17 @@ public class TopPhrases {
                     }
                 }
             }
-        } catch (IOException ioe) {
-            ioe.printStackTrace();
-            return Collections.emptyList();
+        } catch (IOException ioException) {
+            ioException.printStackTrace();
+            return new ArrayList<>();
         }
 
-        List<Map.Entry<String, Integer>> hashMapEntries = new ArrayList<>(occurrences.entrySet());
-        Collections.sort(hashMapEntries, (e1, e2) -> Integer.compare(e2.getValue(), e1.getValue()));
+        List<Map.Entry<String, Integer>> entries = new ArrayList<>(occurrences.entrySet());
+        
+        Collections.sort(entries, (firstElement, secondElement) 
+             -> Integer.compare(secondElement.getValue(), firstElement.getValue()));
 
-        return hashMapEntries
+        return entries
                 .stream()
                 .limit(100000)
                 .collect(Collectors.toList());
