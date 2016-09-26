@@ -16,18 +16,19 @@ import java.util.stream.Collectors;
 public class TopPhrases {
     
     public List<Map.Entry<String,Integer>> findTopHundredThousandFrequentPhrases(String folderPath, String fileName) {
-        Map<String, Integer> occurrences = new HashMap<>();
+        Map<String, Integer> frequency = new HashMap<>();
 
         Path path = Paths.get(folderPath, fileName);
-        try (BufferedReader br = Files.newBufferedReader(path, Charset.forName("UTF-8"))) {
-            String line;
-            while ((line = br.readLine()) != null) {
+        Charset charset = Charset.forName("UTF-8");
+        try (BufferedReader bufferedReader = Files.newBufferedReader(path, charset)) {
+            String line = "";
+            while ((line = bufferedReader.readLine()) != null) {
                 String[] phrases = line.split("\\|");
                 for (String phrase: phrases) {
-                    if (!occurrences.containsKey(phrase)) {
-                        occurrences.put(phrase, 1);
+                    if (!frequency.containsKey(phrase)) {
+                        frequency.put(phrase, 1);
                     } else {
-                        occurrences.put(phrase, occurrences.get(phrase) + 1);
+                        frequency.put(phrase, frequency.get(phrase) + 1);
                     }
                 }
             }
@@ -36,7 +37,7 @@ public class TopPhrases {
             return new ArrayList<>();
         }
 
-        List<Map.Entry<String, Integer>> entries = new ArrayList<>(occurrences.entrySet());
+        List<Map.Entry<String, Integer>> entries = new ArrayList<>(frequency.entrySet());
         
         Collections.sort(entries, (firstElement, secondElement) 
              -> Integer.compare(secondElement.getValue(), firstElement.getValue()));
