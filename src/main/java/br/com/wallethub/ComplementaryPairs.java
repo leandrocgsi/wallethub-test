@@ -1,6 +1,8 @@
 package br.com.wallethub;
 
+import java.util.Arrays;
 import java.util.HashSet;
+import java.util.List;
 import java.util.Set;
 
 public class ComplementaryPairs {
@@ -32,4 +34,45 @@ public class ComplementaryPairs {
 
     }
     
+    public class ComplementaryPair {
+        
+        public int pairOne;
+        public int pairTwo;
+
+        public ComplementaryPair(int addendOne, int addendTwo) {
+            this.pairOne = addendOne;
+            this.pairTwo = addendTwo;
+        }
+
+        public int sum() {
+            return pairOne + pairTwo;
+        }
+
+        @Override
+        public String toString() {
+            return pairOne + " + " + pairTwo;
+        }
+
+        @Override
+        public boolean equals(Object o) {
+            if (this == o) return true;
+            if (o == null || getClass() != o.getClass()) return false;
+
+            ComplementaryPair that = (ComplementaryPair) o;
+
+            List<Integer> numbersList = Arrays.asList(that.pairOne, that.pairTwo, pairOne, pairTwo);
+            
+            Set<Integer> numbersSet = new HashSet<>(numbersList);
+
+            return numbersSet.size() <= 2;
+
+        }
+
+        @Override
+        public int hashCode() {
+            int result = pairOne + pairTwo;
+            result = 31 * result;
+            return result;
+        }
+    }
 }
